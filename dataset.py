@@ -73,12 +73,14 @@ class DataSet(object):
             ]
         
         start = self._index_in_epoch
+        
         # Shuffle for the first epoch
         if self._epochs_completed == 0 and start == 0 and shuffle:
             perm0 = numpy.arange(self._num_examples)
             numpy.random.shuffle(perm0)
             self._datapoints = self.datapoints[perm0]
             self._labels = self.labels[perm0]
+            
         # Go to the next epoch
         if start + batch_size > self._num_examples:
             # Finished epoch
@@ -102,8 +104,8 @@ class DataSet(object):
             end = self._index_in_epoch
             datapoints_new_part = self._datapoints[start:end]
             labels_new_part = self._labels[start:end]
-            return numpy.concatenate((datapoints_rest_part, datapoints_new_part), axis=0),numpy.concatenate((labels_rest_part, labels_new_part), axis=0)
+            return numpy.concatenate((datapoints_rest_part, datapoints_new_part), axis=0),numpy.concatenate((labels_rest_part, labels_new_part), axis=0), True
         else:
             self._index_in_epoch += batch_size
             end = self._index_in_epoch
-            return self._datapoints[start:end], self._labels[start:end]
+            return self._datapoints[start:end], self._labels[start:end], False

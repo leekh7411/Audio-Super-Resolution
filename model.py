@@ -189,7 +189,9 @@ class Model(object):
 
         return train_op
     
-    
+#########################################################################################################################################################
+#########################################################################################################################################################
+
     def load(self, ckpt):
         # get checkpoint name
         # ref - https://www.tensorflow.org/api_docs/python/tf/train/latest_checkpoint
@@ -255,7 +257,7 @@ class Model(object):
         _, loss = self.sess.run([self.train_op, self.loss], feed_dict=feed_dict)
         return loss
     
-    def fit(self, X_train, Y_train, X_val, Y_val, n_epoch=100):
+    def fit(self, X_train, Y_train, X_val, Y_val, n_epoch=10):
         # initialize log directory                  
         if tf.gfile.Exists(self.logdir): tf.gfile.DeleteRecursively(self.logdir)
         tf.gfile.MakeDirs(self.logdir)
@@ -303,6 +305,7 @@ class Model(object):
             print('...done')
             
             tr_obj_snr = 20 * np.log10(1. / np.sqrt(tr_objective) + 1e-8)
+            
             if step % 50 == 0:
                 print(step, tr_objective, tr_obj_snr)
 
